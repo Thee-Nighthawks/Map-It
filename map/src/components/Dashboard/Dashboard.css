@@ -5,16 +5,40 @@
     grid-template-columns: 30% 1fr;
     width: 80%;
     margin: 2em auto;
-
     background: rgba( 255, 255, 255, 0.1 );
     box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
     backdrop-filter: blur( 3.5px );
     -webkit-backdrop-filter: blur( 3.5px );
     border-radius: 10px;
     border: 1px solid rgba( 255, 255, 255, 0.18 );
-
-    min-height: 80vh;
+    height: 80vh;
     padding: 2em;
+}
+.user-dashboard::-webkit-scrollbar {
+    display: none;
+}
+.user-dashboard {
+    padding-block: 1em;
+    display: flex;
+    flex-direction: column;
+    max-height: 60vh;
+    gap: 2em;
+    overflow: scroll;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+.user-dashboard > div > div {
+    display: flex;
+    gap: 2em;
+}
+.user-dashboard > div > p::before {
+    content: ""
+}
+.user-dashboard > div {
+    padding-block: 1em;
+    border: 2px solid white;
+    padding: 1em;
+    border-radius: 1em;
 }
 
 @media only screen and (max-width: 50em) {
