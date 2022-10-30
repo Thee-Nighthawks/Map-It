@@ -16,7 +16,11 @@
     "leaflet-routing-machine": "^3.2.12",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+<<<<<<< HEAD
     "react-leaflet": "^4.1.0"
+=======
+    "react-router-dom": "^6.4.2"
+>>>>>>> b6c106a5810084e35aaba4210f03ead029157e0f
   },
   "devDependencies": {
     "@types/react": "^18.0.22",

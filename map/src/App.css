@@ -1,0 +1,32 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+:root {
+    --bg-gradient: linear-gradient(-45deg, #F1eaec, #f7e5ff, lightblue, #DDD2EE, #e8eef2);
+    --clr-primary-100: #FFFFFF;
+    --clr-primary-400: #7d85A2;
+}
+
+.container {
+    min-height: 100vh;
+    /* background: var(--bg-gradient); */
+    background-image: url("background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: var(--clr-primary-100);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif ;
+}
+
+
+/* Hiding Scrollbar */
+body::-webkit-scrollbar {
+    display: none;
+}
+body {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}

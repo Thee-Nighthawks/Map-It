@@ -23,6 +23,11 @@ export default function useGeoLocation() {
         })
     }
 
+    const accuracy = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+    }
+
   useEffect(() => {
     if (!("geolocation" in navigator)) {
         setLocation(state=>({
