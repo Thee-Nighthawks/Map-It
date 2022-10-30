@@ -56,9 +56,7 @@ function Dashboard() {
           </div>
         </div>
       </div>
-      <div>
-        <TryMap />
-      </div>
+      <TryMap />
     </div>
   )
 }

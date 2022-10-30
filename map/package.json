@@ -16,9 +16,10 @@
     "leaflet-routing-machine": "^3.2.12",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^4.6.0",
     "react-leaflet": "^4.1.0",
     "react-router-dom": "^6.4.2",
-     "redis": "^4.3.1"
+    "redis": "^4.3.1"
   },
   "devDependencies": {
     "@types/react": "^18.0.22",
@@ -27,4 +28,3 @@
     "vite": "^3.2.0"
   }
 }
-
