@@ -4,18 +4,18 @@ class redis {
         this.port = port;
     }
 
-    add(password) {
+    add() {
         /**
          * password: string
          */
         const redis = require('redis');
-        const client = redis.createClient({
-            socket: {
-                host: this.hostname,
-                port: this.port
-            },
-            password: password
-        });
+        const client = redis.createClient(); //{
+        //     socket: {
+        //         host: this.hostname,
+        //         port: this.port
+        //     },
+        //     password: password
+        // });
         client.on('error', err => {
             console.log('Error ' + err);
             return false
@@ -44,7 +44,7 @@ class redis {
         /*
         value: string
         */
-        client.exists(value, function(err, reply) {
+        this.client.exists(value, function(err, reply) {
             if (reply === 1) {
                 this.client.get(value, function(err, vue) {
                     return true, vue
@@ -59,7 +59,7 @@ class redis {
         /*
         value: string
         */
-        client.exists(value, function(err, reply) {
+        this.client.exists(value, function(err, reply) {
             if (reply === 1) {
                 redis.del(value)
                 return true
@@ -69,3 +69,10 @@ class redis {
         })
     }
 }
+
+
+
+let redi = new redis(); //6379
+console.log(redi.add())
+console.log(redi.set('12345', '71.9834', '55.5844'))
+    // console.log(redi.get('12345'))
