@@ -1,10 +1,12 @@
 import {MapContainer,TileLayer,Marker,Circle,Popup,LayersControl} from 'react-leaflet'
-import {useState,useRef} from 'react'
+import {useState,useRef, useEffect} from 'react'
 import L from 'leaflet'
 import osm from '../app/osm-providers'
 import 'leaflet/dist/leaflet.css'
 import useGeoLocation from '../hooks/useGeoLocation'
 import { staticData } from '../app/staticData'
+// import { useMap } from 'react-leaflet'
+// import 'leaflet-routing-machine.css'
 export default function TryMap() {
     const [center,setCenter] = useState({lat: 59.95,lng: 30.33})
 
@@ -35,7 +37,15 @@ export default function TryMap() {
         }
       }
 
+      // routing 
+        const [route,setRoute] = useState([])
 
+        const handleRoute = () => {
+            const route = staticData.map((item) => {
+                return [item.lat,item.lng]
+            })
+            setRoute(route)
+        }
     return(
         <div>
 
@@ -46,6 +56,7 @@ export default function TryMap() {
             style={{height:'100vh',width:'100%'}}
             ref={mapRef}
             whenCreated={handleClick}
+                
             >
                 <TileLayer
                     url={osm.maptiler.url}
@@ -55,7 +66,15 @@ export default function TryMap() {
                     <Marker 
                     // icon={markerIcon}
                     position={[location.coordinates.lat,location.coordinates.lng]} 
-                    />
+                    >
+                        <Popup>
+                            <div>
+                                <h3>your location</h3>
+                                <p>lat: {location.coordinates.lat}</p>
+                                <p>lng: {location.coordinates.lng}</p>
+                            </div>
+                        </Popup>
+                    </Marker>
                 )}
         
                         {staticData.map((item,index)=>
@@ -63,7 +82,16 @@ export default function TryMap() {
                                 <Marker 
                                 key={index}
                                 position={[item.latitude,item.longitude]} 
-                                />
+                                >
+                                    <Popup>
+                                        <div>
+                                            <h3>{item.name}</h3>
+                                            <p>lat: {item.latitude}</p>
+                                            <p>lng: {item.longitude}</p>
+                                        </div>
+                                    </Popup>
+
+                                </Marker>
                             )
                         )}
             </MapContainer>
