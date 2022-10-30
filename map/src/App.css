@@ -7,14 +7,14 @@
 
 :root {
     --bg-gradient: linear-gradient(-45deg, #F1eaec, #f7e5ff, lightblue, #DDD2EE, #e8eef2);
-    --clr-primary-100: #FFFFFF;
+    --clr-primary-100: #fff;
     --clr-primary-400: #7d85A2;
 }
 
 .container {
     min-height: 100vh;
     /* background: var(--bg-gradient); */
-    background-image: url("background.jpg");
+    background-image: url("./assets/background.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     color: var(--clr-primary-100);
