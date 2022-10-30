@@ -1,8 +1,11 @@
+import Support from "../components/Support/Support"
+
 function SupportPage() {
   return (
     <div id="support">
-      <h1>Hello Support</h1>
+      <Support />
     </div>
+     
   )
 }
 

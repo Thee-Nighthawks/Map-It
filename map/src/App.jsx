@@ -5,6 +5,7 @@ import SupportPage from "./pages/SupportPage"
 import DashboardPage from "./pages/Admin/DashboardPage"
 import "./App.css"
 import Footer from "./components/UI Components/Footer/Footer"
+import ContributorPage from "./pages/ContributorPage"
 
 function App() {
   return (
@@ -14,9 +15,8 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/support" element={<SupportPage />} />
-          <Route path="/admin">
-            <Route path="/admin/dashboard" element={<DashboardPage />} />
-          </Route>
+          <Route path="/contributors" element={<ContributorPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
         </Routes>
         <Footer />
       </Router>
