@@ -1,5 +1,4 @@
 .wrapper {
-    --columns: 2;
     display: grid;
     /* grid-template-columns: repeat(var(--columns), 1fr); */
     grid-template-columns: 30% 1fr;
@@ -43,6 +42,7 @@
 }
 .map {
     height: 70vh;
+    border-radius: 1em;
 }
 .map-container {
     display: flex;

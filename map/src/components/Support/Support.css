@@ -25,6 +25,9 @@ textarea {
     border-radius: 1em;
     border: none;
 }
+textarea {
+    padding-block: 1em;
+}
 
 .submit-btn {
     all: unset;
