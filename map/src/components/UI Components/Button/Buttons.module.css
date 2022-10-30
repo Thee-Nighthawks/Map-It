@@ -1,0 +1,33 @@
+.primary-btn {
+    all: unset;
+    position: relative;
+    cursor: pointer;
+    width: 8em;
+    background-color: transparent;
+    color: var(--clr-primary-100);
+    border: 2px solid var(--clr-primary-100);
+    text-align: center;
+    border-radius: 1em;
+    padding-block: 1em;
+    margin-block: 1em;
+    box-shadow: 5px 5px 5px gray;
+    isolation: isolate;
+    transition: color 500ms ease-in-out;
+}
+.primary-btn::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: var(--clr-primary-100);
+    z-index: -1;
+    border-radius: inherit;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 500ms ease-in-out;
+}
+.primary-btn:hover {
+    color: black;
+}
+.primary-btn:hover::after {
+    transform: scaleX(1);
+}

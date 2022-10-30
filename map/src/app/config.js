@@ -1,5 +1,5 @@
 const config = {
-  name: "Track It",
+  name: "Map It",
 }
 
 export default config

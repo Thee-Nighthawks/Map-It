@@ -4,6 +4,7 @@ import HomePage from "./pages/HomePage"
 import SupportPage from "./pages/SupportPage"
 import DashboardPage from "./pages/Admin/DashboardPage"
 import "./App.css"
+import Footer from "./components/UI Components/Footer/Footer"
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <Route path="/admin/dashboard" element={<DashboardPage />} />
           </Route>
         </Routes>
+        <Footer />
       </Router>
     </div>
   )

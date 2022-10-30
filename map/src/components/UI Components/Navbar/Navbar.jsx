@@ -13,7 +13,9 @@ function Navbar() {
         <li>
           <Link to="/admin/dashboard">Dashboard</Link>
         </li>
-        <li>Sign In</li>
+        <li>
+          <Link to="/contributors">Contributors</Link>
+        </li>
         <li>Support</li>
       </ul>
     </nav>
