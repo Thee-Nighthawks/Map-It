@@ -40,10 +40,8 @@ export default function TryMap({ coordinates, setCoordinates }) {
     shadowAnchor: [22, 94],
   })
 
-<<<<<<< HEAD
-// get my location or fly to certain location thing
-  const handleClick = (e) => { 
-=======
+
+  const radius=500
   const getMousePosition = (e) => {
     const { lat, lng } = e.latlng
     setCenter({ lat, lng })
@@ -52,7 +50,6 @@ export default function TryMap({ coordinates, setCoordinates }) {
   }
   // get my location or fly to certain location thing
   const handleClick = (e) => {
->>>>>>> 71d550393dd2c5ef4d695d2130e9d7bb49f2c25f
     if (location.loaded && !location.error) {
       // console.log("your location is", location.coordinates)
 
@@ -84,12 +81,38 @@ export default function TryMap({ coordinates, setCoordinates }) {
         console.log("Location", data.results[0])
         setCoordinates(data.results[0].components)
       })
+      getShortestPath(latLng)
+      createCircle(latLng)
+
+  }
+  const createCircle = (e) => {
+    L.circle([e.lat, e.lng], {
+      color: "red",
+      fillColor: "#f03",
+      fillOpacity: 0.5,
+      radius: radius,
+    }).addTo(mapRef.current)
+    
+  }
+
+  
+
+  const getShortestPath = (e) => {
+    L.Routing.control({
+      waypoints: [
+        L.latLng(51.5, -0.09),
+        L.latLng(e.lat,e.lng),
+      
+      ],
+    }).addTo(mapRef.current)
+
   }
 
   return (
     <div
       onDoubleClick={count === 0 ? newMarker : null}
       className="map-container"
+      style={{color:"transparent",userSelect:"none"}}
     >
       <MapContainer
         center={center}
@@ -127,11 +150,11 @@ export default function TryMap({ coordinates, setCoordinates }) {
             // icon={markerIcon}
             position={position}
           >
-            <Circle
+            {/* <Circle
               center={position}
               pathOptions={{ color: "blue" }}
-              radius={110}
-            />
+              radius={radius}
+            /> */}
 
             <Popup>
               <div>
@@ -149,7 +172,7 @@ export default function TryMap({ coordinates, setCoordinates }) {
             icon={markerIcon}
             ref={markerRef}
           >
-            {console.log("index", index)}
+            
             <Popup>
               <div>
                 <h3>{item.name}</h3>
@@ -157,6 +180,9 @@ export default function TryMap({ coordinates, setCoordinates }) {
                 <p>lng: {item.longitude}</p>
               </div>
             </Popup>
+           {/* add circle on click */}
+          
+        {console.log( item.longitude)}
           </Marker>
         ))}
       </MapContainer>
