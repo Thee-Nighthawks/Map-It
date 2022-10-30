@@ -9,7 +9,7 @@ function Dashboard() {
         <h1 style={{ color: "var(--clr-primary-400)" }}>Notification</h1>
         <Notification />
       </div>
-      <TryMap />
+      {/* <TryMap /> */}
     </div>
   )
 }

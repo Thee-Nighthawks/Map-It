@@ -15,7 +15,8 @@ import { staticData } from "../app/staticData"
 import PrimaryButton from "./UI Components/Button/PrimaryButton"
 import ReactRouting from "./reactRouting"
 import "leaflet-routing-machine"
-export default function TryMap() {
+
+export default function TryMap({ coordinates, setCoordinates }) {
   const [center, setCenter] = useState({ lat: 59.95, lng: 30.33 })
   const mapRef = useRef()
   const markerRef = useRef()
@@ -43,47 +44,48 @@ export default function TryMap() {
     const { lat, lng } = e.latlng
     setCenter({ lat, lng })
     setIsDragged(true)
-    console.log("lat", lat, "lng", lng)
+    // console.log("lat", lat, "lng", lng)
   }
   // get my location or fly to certain location thing
   const handleClick = (e) => {
     if (location.loaded && !location.error) {
-      console.log("your location is", location.coordinates)
+      // console.log("your location is", location.coordinates)
 
       mapRef.current.flyTo(position, ZOOM_LEVEL, { animate: true })
-      console.warn("isDragged", isDragged)
+      // console.warn("isDragged", isDragged)
     } else {
-      console.log("not loaded")
+      // console.log("not loaded")
     }
   }
   // adds a marker to the map
   const newMarker = (e) => {
     setCount((prev) => prev + 1)
-    // if(markerRef.current) return
-    console.log(markerRef.current)
+    // console.log(markerRef.current)
 
-    console.warn("isDragged", isDragged)
-    // get mouse click position
+    // console.warn("isDragged", isDragged)
     let latLng = mapRef.current.mouseEventToLatLng(e)
-    // add marker to map
     let marker = L.marker([latLng.lat - 0.00005, latLng.lng], {
       icon: markerIcon,
     }).addTo(mapRef.current)
 
-    console.log("latitude longitude", latLng)
+    // console.log("latitude longitude", latLng)
     const geodingUrl = `https://api.opencagedata.com/geocode/v1/json?q=${latLng.lat}+${latLng.lng}&key=1c7e646c300b43d4a8c16a1a3d7e0d70`
     fetch(geodingUrl)
       .then((res) => res.json())
       .then((data) => {
-        console.log("data", data)
+        // console.log("data", data)
         marker.bindPopup(data.results[0].formatted).openPopup()
         // setGetLocationName(data.results[0].formatted)
-        console.log("locationOfLoli", data.results[0].formatted)
+        console.log("Location", data.results[0])
+        setCoordinates(data.results[0].components)
       })
   }
 
   return (
-    <div onDoubleClick={count === 0 ? newMarker : ""} className="map-container">
+    <div
+      onDoubleClick={count === 0 ? newMarker : null}
+      className="map-container"
+    >
       <MapContainer
         center={center}
         zoom={ZOOM_LEVEL}
@@ -135,7 +137,6 @@ export default function TryMap() {
             </Popup>
           </Marker>
         )}
-        {}
         {staticData.map((item, index) => (
           <Marker
             key={index}
