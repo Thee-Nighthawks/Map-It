@@ -15,11 +15,13 @@ import { staticData } from "../app/staticData"
 import PrimaryButton from "./UI Components/Button/PrimaryButton"
 export default function TryMap() {
   const [center, setCenter] = useState({ lat: 59.95, lng: 30.33 })
-
   const mapRef = useRef()
   const ZOOM_LEVEL = 16
   const position = [51.505, -0.09] // test purpose
   const location = useGeoLocation()
+  const [isDragged, setIsDragged] = useState(false)
+  const [getLocationName, setGetLocationName] = useState("")
+
 
   //  changable values
   const markerIcon = L.icon({
@@ -31,43 +33,77 @@ export default function TryMap() {
     shadowSize: [68, 95],
     shadowAnchor: [22, 94],
   })
+   
+  const getMousePosition = (e) => {
+    const { lat, lng } = e.latlng
+    setCenter({ lat, lng })
+    setIsDragged(true)
+    console.log("lat", lat, "lng", lng)
+  }
 
-  const handleClick = (e) => {
+  const handleClick = (e) => { 
     if (location.loaded && !location.error) {
       console.log("your location is", location.coordinates)
       mapRef.current.flyTo(
-        [location.coordinates.lat, location.coordinates.lng],
+        position,
         ZOOM_LEVEL,
         { animate: true }
       )
+      console.warn("isDragged",isDragged)
     } else {
       console.log("not loaded")
     }
+  
+
   }
 
   const newMarker = (e) => {
-    console.log("new marker")
+    if(isDragged===true){
+      console.warn("isDragged",isDragged)
+      return;
+    }
+  
+    
     // get mouse click position
     let latLng = mapRef.current.mouseEventToLatLng(e)
-    console.log(latLng)
     // add marker to map
-    let marker = L.marker([latLng.lat, latLng.lng], { icon: markerIcon }).addTo(
+    let marker = L.marker([latLng.lat-0.0005, latLng.lng], { icon: markerIcon }).addTo(
       mapRef.current
     )
+  
+
+    
+    console.log("latitude longitude",latLng)
+    const geodingUrl=`https://api.opencagedata.com/geocode/v1/json?q=${latLng.lat}+${latLng.lng}&key=1c7e646c300b43d4a8c16a1a3d7e0d70`
+    fetch(geodingUrl)
+    .then((res) => res.json())
+    .then((data) => {
+      console.log("data",data)
+      marker.bindPopup(data.results[0].formatted).openPopup()
+      setGetLocationName(data.results[0].formatted)
+      console.log("locationOfLoli",getLocationName)
+    }
+    )
   }
+
   return (
-    <div onClick={newMarker} className="map-container">
+    <div onClick={newMarker}
+    className="map-container"
+    >
       <MapContainer
         center={center}
         zoom={ZOOM_LEVEL}
         scrollWheelZoom={true}
         className="map"
         ref={mapRef}
-        whenCreated={handleClick}
+        onClick={handleClick}
+        onDragStart={() => setTimeout(() => setIsDragged(true), 250)}
+          onDragEnd={() => setTimeout(() => setIsDragged(false), 250)}
       >
         <TileLayer
           url={osm.maptiler.url}
           attribution={osm.maptiler.attribution}
+          
         />
         <LayersControl position="topright">
           <LayersControl.BaseLayer name="OpenStreetMap.Mapnik">
@@ -87,10 +123,10 @@ export default function TryMap() {
         {location.loaded && !location.error && (
           <Marker
             // icon={markerIcon}
-            position={[location.coordinates.lat, location.coordinates.lng]}
+            position={position}
           >
             <Circle
-              center={[location.coordinates.lat, location.coordinates.lng]}
+              center={position}
               pathOptions={{ color: "blue" }}
               radius={110}
             />
