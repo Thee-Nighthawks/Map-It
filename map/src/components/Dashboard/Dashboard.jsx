@@ -7,7 +7,14 @@ function Dashboard() {
       <div>
         <h1>Notification</h1>
         <div className="user-dashboard">
-          <div></div>
+          <div>
+            <h2>Location</h2>
+            <div>
+              <p>Town</p>
+              <p>Address</p>
+            </div>
+            <p>City</p>
+          </div>
           <div></div>
           <div></div>
           <div></div>
