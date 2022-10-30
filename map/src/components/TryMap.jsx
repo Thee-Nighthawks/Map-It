@@ -14,8 +14,9 @@ import useGeoLocation from "../hooks/useGeoLocation"
 import { staticData } from "../app/staticData"
 import PrimaryButton from "./UI Components/Button/PrimaryButton"
 import ReactRouting from "./reactRouting"
-import 'leaflet-routing-machine'
-export default function TryMap() {
+import "leaflet-routing-machine"
+
+export default function TryMap({ coordinates, setCoordinates }) {
   const [center, setCenter] = useState({ lat: 59.95, lng: 30.33 })
   const mapRef = useRef()
   const markerRef = useRef()
@@ -25,10 +26,10 @@ export default function TryMap() {
   const [isDragged, setIsDragged] = useState(false)
   const [getLocationName, setGetLocationName] = useState("")
   const [map, setMap] = useState(null)
+  const [count, setCount] = useState(0)
 
-
-  const tileRef= useRef()
-// changable values
+  const tileRef = useRef()
+  // changable values
   const markerIcon = L.icon({
     iconUrl:
       "https://img.icons8.com/external-prettycons-lineal-color-prettycons/452/external-location-pin-essentials-prettycons-lineal-color-prettycons-2.png",
@@ -39,76 +40,56 @@ export default function TryMap() {
     shadowAnchor: [22, 94],
   })
 
+<<<<<<< HEAD
 // get my location or fly to certain location thing
   const handleClick = (e) => { 
+=======
+  const getMousePosition = (e) => {
+    const { lat, lng } = e.latlng
+    setCenter({ lat, lng })
+    setIsDragged(true)
+    // console.log("lat", lat, "lng", lng)
+  }
+  // get my location or fly to certain location thing
+  const handleClick = (e) => {
+>>>>>>> 71d550393dd2c5ef4d695d2130e9d7bb49f2c25f
     if (location.loaded && !location.error) {
-      console.log("your location is", location.coordinates)
-      
-      mapRef.current.flyTo(
-        position,
-        ZOOM_LEVEL,
-        { animate: true }
-      )
-      console.warn("isDragged",isDragged)
+      // console.log("your location is", location.coordinates)
+
+      mapRef.current.flyTo(position, ZOOM_LEVEL, { animate: true })
+      // console.warn("isDragged", isDragged)
     } else {
-      console.log("not loaded")
+      // console.log("not loaded")
     }
-  
-
   }
-// adds a marker to the map
+  // adds a marker to the map
   const newMarker = (e) => {
-    // if(markerRef.current) return
-    console.log(markerRef.current)
-  
-    console.warn("isDragged",isDragged)
-    // get mouse click position
+    setCount((prev) => prev + 1)
+    // console.log(markerRef.current)
+
+    // console.warn("isDragged", isDragged)
     let latLng = mapRef.current.mouseEventToLatLng(e)
-    // add marker to map
-    let marker = L.marker([latLng.lat-0.00005, latLng.lng], { icon: markerIcon }).addTo(
-      mapRef.current
-    )
-   
-    console.log("latitude longitude",latLng)
-    const geodingUrl=`https://api.opencagedata.com/geocode/v1/json?q=${latLng.lat}+${latLng.lng}&key=1c7e646c300b43d4a8c16a1a3d7e0d70`
+    let marker = L.marker([latLng.lat - 0.00005, latLng.lng], {
+      icon: markerIcon,
+    }).addTo(mapRef.current)
+
+    // console.log("latitude longitude", latLng)
+    const geodingUrl = `https://api.opencagedata.com/geocode/v1/json?q=${latLng.lat}+${latLng.lng}&key=1c7e646c300b43d4a8c16a1a3d7e0d70`
     fetch(geodingUrl)
-    .then((res) => res.json())
-    .then((data) => {
-      console.log("data",data)
-      marker.bindPopup(data.results[0].formatted).openPopup()
-      // setGetLocationName(data.results[0].formatted)
-      console.log("locationOfLoli",data.results[0].formatted)
-    }
-    )
-    console.log(L.latLng.latitude)
-    getShortestPath(latLng)
-  }
-
-  const getShortestPath = (e) => {
-      L.Routing.control({
-        waypoints: [
-          L.latLng(51.5, -0.09),
-          L.latLng(e.lat, e.lng)
-
-        ],
-        routeWhileDragging: true,
-        showAlternatives: true,
-        // lineOptions: {
-        //   styles: [{ color: 'black', opacity: 1, weight: 3 }]
-        // },                                       
-        draggableWaypoints: true,
-        addWaypoints: false,
-        fitSelectedRoutes: true, 
-        draggable:false,
-        routeWhileDragging: true,
-      }).addTo(mapRef.current);
-
+      .then((res) => res.json())
+      .then((data) => {
+        // console.log("data", data)
+        marker.bindPopup(data.results[0].formatted).openPopup()
+        // setGetLocationName(data.results[0].formatted)
+        console.log("Location", data.results[0])
+        setCoordinates(data.results[0].components)
+      })
   }
 
   return (
-    <div onDoubleClick={newMarker}
-    className="map-container"
-    style={{color: "transparent",outline:"none", userSelect:"none"}}
+    <div
+      onDoubleClick={count === 0 ? newMarker : null}
+      className="map-container"
     >
       <MapContainer
         center={center}
@@ -116,19 +97,16 @@ export default function TryMap() {
         scrollWheelZoom={true}
         className="map"
         ref={mapRef}
-        // whenCreated={(map) => {
-        //   map.on("click", getMousePosition)
-        // }}
-
+        whenCreated={(map) => {
+          map.on("click", getMousePosition)
+        }}
       >
         <TileLayer
           url={osm.maptiler.url}
           attribution={osm.maptiler.attribution}
           ref={tileRef}
         />
-       
 
-        
         <LayersControl position="topright">
           <LayersControl.BaseLayer name="OpenStreetMap.Mapnik">
             <TileLayer
@@ -154,7 +132,7 @@ export default function TryMap() {
               pathOptions={{ color: "blue" }}
               radius={110}
             />
-     
+
             <Popup>
               <div>
                 <h3>your location</h3>
@@ -164,16 +142,14 @@ export default function TryMap() {
             </Popup>
           </Marker>
         )}
-        
-    
-        {staticData.map((item, index) => 
-        (
+        {staticData.map((item, index) => (
           <Marker
             key={index}
             position={[item.latitude, item.longitude]}
             icon={markerIcon}
             ref={markerRef}
           >
+            {console.log("index", index)}
             <Popup>
               <div>
                 <h3>{item.name}</h3>
@@ -182,7 +158,6 @@ export default function TryMap() {
               </div>
             </Popup>
           </Marker>
-          
         ))}
       </MapContainer>
       <PrimaryButton text="Locate Me" clickEvent={handleClick} />

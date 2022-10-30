@@ -1,16 +1,20 @@
 import { FaLinkedin, FaGithub } from "react-icons/fa"
 import "./Contributor.css"
-function Card() {
+function Card({ name, img, github, linkedin }) {
   return (
     <div className="card-container">
       <div className="card-image">
-        <img src="https://source.unsplash.com/random" alt="Profile Image" />
+        <img src={img} alt={name} />
       </div>
       <div className="card-content">
-        <p>Name</p>
+        <p>{name}</p>
         <div className="socials-list">
-          <FaLinkedin color="blue" className="socials" />
-          <FaGithub color="black" className="socials" />
+          <a href={linkedin} target="_blank">
+            <FaLinkedin color="blue" className="socials" />
+          </a>
+          <a href={github} target="_blank">
+            <FaGithub color="black" className="socials" href={github} />
+          </a>
         </div>
       </div>
     </div>

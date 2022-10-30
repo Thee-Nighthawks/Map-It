@@ -1,56 +1,21 @@
 import React from "react"
 
-function Notification() {
+function Notification({ coordinates }) {
+  const { suburb, state, region, city, postcode } = coordinates
   return (
     <div className="user-dashboard">
-      <div>
-        <h2>Location</h2>
+      {city !== null ? (
         <div>
-          <p>Town</p>
-          <p>Address</p>
+          <h2>{city}</h2>
+          <div>
+            <p>{region}</p>
+            <p>{suburb}</p>
+          </div>
+          <p>{state}</p>
         </div>
-        <p>City</p>
-      </div>
-      <div>
-        <h2>Location</h2>
-        <div>
-          <p>Town</p>
-          <p>Address</p>
-        </div>
-        <p>City</p>
-      </div>
-      <div>
-        <h2>Location</h2>
-        <div>
-          <p>Town</p>
-          <p>Address</p>
-        </div>
-        <p>City</p>
-      </div>
-      <div>
-        <h2>Location</h2>
-        <div>
-          <p>Town</p>
-          <p>Address</p>
-        </div>
-        <p>City</p>
-      </div>
-      <div>
-        <h2>Location</h2>
-        <div>
-          <p>Town</p>
-          <p>Address</p>
-        </div>
-        <p>City</p>
-      </div>
-      <div>
-        <h2>Location</h2>
-        <div>
-          <p>Town</p>
-          <p>Address</p>
-        </div>
-        <p>City</p>
-      </div>
+      ) : (
+        ""
+      )}
     </div>
   )
 }

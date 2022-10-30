@@ -6,16 +6,24 @@ import PrimaryButton from "../UI Components/Button/PrimaryButton"
 
 function AdminDashboard() {
   const [task, setTask] = useState("")
+  const [coordinates, setCoordinates] = useState({
+    suburb: "",
+    state: "",
+    region: "",
+    city: "",
+    postcode: "",
+  })
+
   const handleClick = () => {
     console.log(task)
     setTask("")
   }
   return (
     <div className="admin-wrapper">
-      <TryMap />
+      <TryMap coordinates={coordinates} setCoordinates={setCoordinates} />
       <Header subHeading="Assignment" />
       <div className="admin-panel">
-        <Notification />
+        <Notification coordinates={coordinates} />
         <div className="task-assignment">
           <h2>Enter the Task</h2>
           <textarea
