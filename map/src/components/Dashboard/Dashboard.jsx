@@ -5,13 +5,20 @@ function Dashboard() {
   return (
     <div className="wrapper">
       <div>
-        <h1>{config.name}</h1>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis
-          dolorem asperiores porro deleniti, adipisci laudantium repudiandae
-          quaerat placeat fugiat laboriosam mollitia dolores architecto culpa
-          facilis a vel! Aliquam, mollitia rem.
-        </p>
+        <h1>Notification</h1>
+        <div className="user-dashboard">
+          <div>
+            <h2>Location</h2>
+            <div>
+              <p>Town</p>
+              <p>Address</p>
+            </div>
+            <p>City</p>
+          </div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
       </div>
       <div>
         <TryMap />

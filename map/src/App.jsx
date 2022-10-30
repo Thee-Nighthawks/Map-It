@@ -7,6 +7,7 @@ import HomePage from "./pages/HomePage"
 import SupportPage from "./pages/SupportPage"
 import DashboardPage from "./pages/Admin/DashboardPage"
 import Footer from "./components/UI Components/Footer/Footer"
+import ContributorPage from "./pages/ContributorPage"
 function App() {
   const coordinates = {
     lat: 59.95,
@@ -20,9 +21,8 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/support" element={<SupportPage />} />
-          <Route path="/admin">
-            <Route path="/admin/dashboard" element={<DashboardPage />} />
-          </Route>
+          <Route path="/contributors" element={<ContributorPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
         </Routes>
         <Footer />
       </Router>
