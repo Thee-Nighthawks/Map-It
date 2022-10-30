@@ -2,8 +2,12 @@
     display: flex;
     font-size: 1.25rem;
     list-style: none;
-    justify-content: center;
-    gap: 10em;
+    align-items: center;
+    gap: 2em;
+    padding-inline: 2em;
+}
+li img {
+    width: 2em;
 }
 li {
     padding-block: 1em 0.5em;
@@ -11,8 +15,12 @@ li {
     overflow: hidden;
     cursor: pointer;
 }
+li:last-child {
+    margin-left: auto;
+}
 ul > li > * {
     text-decoration: none;
+    color: inherit;
 }
 li::after {
     content: "";
@@ -22,6 +30,6 @@ li::after {
     transform: translateX(-100%);
     transition: transform 250ms ease-in-out;
 }
-li:hover::after {
+li:hover:not(:has(img))::after {
     transform: translateX(0);
 }

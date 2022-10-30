@@ -1,14 +1,8 @@
 import Header from "../components/UI Components/Header/Header"
-import config from "../app/config"
-import Intro from "../components/Home/Intro"
+import Dashboard from "../components/Dashboard/Dashboard"
 
 function HomePage() {
-  return (
-    <div id="home">
-      <Header heading={config.name} />
-      <Intro />
-    </div>
-  )
+  return <div id="home"></div>
 }
 
 export default HomePage
