@@ -18,12 +18,14 @@ import 'leaflet-routing-machine'
 export default function TryMap() {
   const [center, setCenter] = useState({ lat: 59.95, lng: 30.33 })
   const mapRef = useRef()
+  const markerRef = useRef()
   const ZOOM_LEVEL = 16
   const position = [51.505, -0.09] // test purpose
   const location = useGeoLocation()
   const [isDragged, setIsDragged] = useState(false)
   const [getLocationName, setGetLocationName] = useState("")
   const [map, setMap] = useState(null)
+
 
   const tileRef= useRef()
 // changable values
@@ -62,14 +64,17 @@ export default function TryMap() {
   }
 // adds a marker to the map
   const newMarker = (e) => {
-    
+    // if(markerRef.current) return
+    console.log(markerRef.current)
+  
     console.warn("isDragged",isDragged)
     // get mouse click position
     let latLng = mapRef.current.mouseEventToLatLng(e)
     // add marker to map
-    let marker = L.marker([latLng.lat-0.0005, latLng.lng], { icon: markerIcon }).addTo(
+    let marker = L.marker([latLng.lat-0.00005, latLng.lng], { icon: markerIcon }).addTo(
       mapRef.current
-    )    
+    )
+   
     console.log("latitude longitude",latLng)
     const geodingUrl=`https://api.opencagedata.com/geocode/v1/json?q=${latLng.lat}+${latLng.lng}&key=1c7e646c300b43d4a8c16a1a3d7e0d70`
     fetch(geodingUrl)
@@ -77,8 +82,8 @@ export default function TryMap() {
     .then((data) => {
       console.log("data",data)
       marker.bindPopup(data.results[0].formatted).openPopup()
-      setGetLocationName(data.results[0].formatted)
-      console.log("locationOfLoli",getLocationName)
+      // setGetLocationName(data.results[0].formatted)
+      console.log("locationOfLoli",data.results[0].formatted)
     }
     )
   }
@@ -86,7 +91,7 @@ export default function TryMap() {
 
 
   return (
-    <div onDoubleClick={newMarker}
+    <div onClick={newMarker}
     className="map-container"
     >
       <MapContainer
@@ -143,13 +148,16 @@ export default function TryMap() {
             </Popup>
           </Marker>
         )}
-
-        {staticData.map((item, index) => (
+        {}
+        {staticData.map((item, index) => 
+        (
           <Marker
             key={index}
             position={[item.latitude, item.longitude]}
             icon={markerIcon}
+            ref={markerRef}
           >
+             {console.log("index",index)}
             <Popup>
               <div>
                 <h3>{item.name}</h3>
@@ -158,6 +166,7 @@ export default function TryMap() {
               </div>
             </Popup>
           </Marker>
+          
         ))}
       </MapContainer>
       <PrimaryButton text="Locate Me" clickEvent={handleClick} />

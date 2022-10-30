@@ -7,6 +7,7 @@ import ContributorPage from "./pages/ContributorPage"
 import DashboardPage from "./pages/DashboardPage"
 import AdminDashboardPage from "./pages/Admin/AdminDashboardPage"
 import "./App.css"
+import TryMap from "./components/TryMap"
 function App() {
   const coordinates = {
     lat: 59.95,
@@ -22,6 +23,7 @@ function App() {
             <Route path="/support" element={<SupportPage />} />
             <Route path="/contributors" element={<ContributorPage />} />
             <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/admin/t" element={<TryMap />} />
             <Route path="/admin">
               <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
             </Route>

@@ -8,5 +8,11 @@ export const staticData = [
         name: 'Tejas GK',
         latitude: 50.505,
         longitude: -0.87,
+    },
+    {
+        name:'admin',
+        latitude: 51.505,
+        longitude: -0.09,
+        isAdmin: true
     }
 ]
