@@ -1,9 +1,10 @@
-import {MapContainer,TileLayer,Marker} from 'react-leaflet'
+import {MapContainer,TileLayer,Marker,Circle,Popup,LayersControl} from 'react-leaflet'
 import {useState,useRef} from 'react'
 import L from 'leaflet'
 import osm from '../app/osm-providers'
 import 'leaflet/dist/leaflet.css'
 import useGeoLocation from '../hooks/useGeoLocation'
+import { staticData } from '../app/staticData'
 export default function TryMap() {
     const [center,setCenter] = useState({lat: 59.95,lng: 30.33})
 
@@ -28,10 +29,7 @@ export default function TryMap() {
             mapRef.current.flyTo([location.coordinates.lat,location.coordinates.lng],
                 ZOOM_LEVEL,
                 {animate:true}
-            )
-          
-
-            
+            )        
         }else{
           console.log("not loaded")
         }
@@ -40,6 +38,7 @@ export default function TryMap() {
 
     return(
         <div>
+
             <MapContainer 
             center={center} 
             zoom={ZOOM_LEVEL}
@@ -58,6 +57,15 @@ export default function TryMap() {
                     position={[location.coordinates.lat,location.coordinates.lng]} 
                     />
                 )}
+        
+                        {staticData.map((item,index)=>
+                            (
+                                <Marker 
+                                key={index}
+                                position={[item.latitude,item.longitude]} 
+                                />
+                            )
+                        )}
             </MapContainer>
           
             <button
