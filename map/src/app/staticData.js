@@ -13,6 +13,6 @@ export const staticData = [
         name:'admin',
         latitude: 51.505,
         longitude: -0.09,
-        isAdmin: true
+        isAdmin: false
     }
 ]

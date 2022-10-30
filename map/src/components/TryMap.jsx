@@ -38,13 +38,7 @@ export default function TryMap() {
     shadowSize: [68, 95],
     shadowAnchor: [22, 94],
   })
-   
-  const getMousePosition = (e) => {
-    const { lat, lng } = e.latlng
-    setCenter({ lat, lng })
-    setIsDragged(true)
-    console.log("lat", lat, "lng", lng)
-  }
+
 // get my location or fly to certain location thing
   const handleClick = (e) => { 
     if (location.loaded && !location.error) {
@@ -86,13 +80,35 @@ export default function TryMap() {
       console.log("locationOfLoli",data.results[0].formatted)
     }
     )
+    console.log(L.latLng.latitude)
+    getShortestPath(latLng)
   }
 
+  const getShortestPath = (e) => {
+      L.Routing.control({
+        waypoints: [
+          L.latLng(51.5, -0.09),
+          L.latLng(e.lat, e.lng)
 
+        ],
+        routeWhileDragging: true,
+        showAlternatives: true,
+        // lineOptions: {
+        //   styles: [{ color: 'black', opacity: 1, weight: 3 }]
+        // },                                       
+        draggableWaypoints: true,
+        addWaypoints: false,
+        fitSelectedRoutes: true, 
+        draggable:false,
+        routeWhileDragging: true,
+      }).addTo(mapRef.current);
+
+  }
 
   return (
-    <div onClick={newMarker}
+    <div onDoubleClick={newMarker}
     className="map-container"
+    style={{color: "transparent",outline:"none", userSelect:"none"}}
     >
       <MapContainer
         center={center}
@@ -100,9 +116,9 @@ export default function TryMap() {
         scrollWheelZoom={true}
         className="map"
         ref={mapRef}
-        whenCreated={(map) => {
-          map.on("click", getMousePosition)
-        }}
+        // whenCreated={(map) => {
+        //   map.on("click", getMousePosition)
+        // }}
 
       >
         <TileLayer
@@ -148,7 +164,8 @@ export default function TryMap() {
             </Popup>
           </Marker>
         )}
-        {}
+        
+    
         {staticData.map((item, index) => 
         (
           <Marker
@@ -157,7 +174,6 @@ export default function TryMap() {
             icon={markerIcon}
             ref={markerRef}
           >
-             {console.log("index",index)}
             <Popup>
               <div>
                 <h3>{item.name}</h3>
