@@ -83,6 +83,7 @@ export default function TryMap({ coordinates, setCoordinates }) {
       })
       getShortestPath(latLng)
       createCircle(latLng)
+      userExixtsInsideCircle(latLng)
 
   }
   const createCircle = (e) => {
@@ -95,7 +96,33 @@ export default function TryMap({ coordinates, setCoordinates }) {
     
   }
 
-  
+  const userExixtsInsideCircle = (e) => {
+    let userLocation = position
+    let circleLocation = [e.lat, e.lng]
+    let distance = mapRef.current.distance(userLocation, circleLocation)
+    console.log("distance", distance)
+    console.log('radius', radius)
+    if (distance <= radius*2) {  // radius*2 because the distance is calculated from the center of the circle
+      console.log("user is inside the circle")
+    } else {
+      console.log("user is outside the circle")
+    }
+  }
+
+  const getCoordinatesOfMarker = (e) => {
+    // console.log("marker", e.target._latlng)
+    let latLng = e.target._latlng
+    const geodingUrl = `https://api.opencagedata.com/geocode/v1/json?q=${latLng.lat}+${latLng.lng}&key=1c7e646c300b43d4a8c16a1a3d7e0d70`
+    fetch(geodingUrl)
+      .then((res) => res.json())
+      .then((data) => {
+        // console.log("data", data)
+        // marker.bindPopup(data.results[0].formatted).openPopup()
+        // setGetLocationName(data.results[0].formatted)
+        console.log("Location", data.results[0])
+        setCoordinates(data.results[0].components)
+      })
+  }
 
   const getShortestPath = (e) => {
     L.Routing.control({
@@ -107,6 +134,7 @@ export default function TryMap({ coordinates, setCoordinates }) {
     }).addTo(mapRef.current)
 
   }
+  const task='hello task'
 
   return (
     <div
@@ -161,6 +189,7 @@ export default function TryMap({ coordinates, setCoordinates }) {
                 <h3>your location</h3>
                 <p>lat: {location.coordinates.lat}</p>
                 <p>lng: {location.coordinates.lng}</p>
+                <p>task:{task}</p>
               </div>
             </Popup>
           </Marker>
