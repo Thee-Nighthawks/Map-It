@@ -13,6 +13,8 @@ import "leaflet/dist/leaflet.css"
 import useGeoLocation from "../hooks/useGeoLocation"
 import { staticData } from "../app/staticData"
 import PrimaryButton from "./UI Components/Button/PrimaryButton"
+import ReactRouting from "./reactRouting"
+import 'leaflet-routing-machine'
 export default function TryMap() {
   const [center, setCenter] = useState({ lat: 59.95, lng: 30.33 })
   const mapRef = useRef()
@@ -21,9 +23,10 @@ export default function TryMap() {
   const location = useGeoLocation()
   const [isDragged, setIsDragged] = useState(false)
   const [getLocationName, setGetLocationName] = useState("")
+  const [map, setMap] = useState(null)
 
-
-  //  changable values
+  const tileRef= useRef()
+// changable values
   const markerIcon = L.icon({
     iconUrl:
       "https://img.icons8.com/external-prettycons-lineal-color-prettycons/452/external-location-pin-essentials-prettycons-lineal-color-prettycons-2.png",
@@ -40,10 +43,11 @@ export default function TryMap() {
     setIsDragged(true)
     console.log("lat", lat, "lng", lng)
   }
-
+// get my location or fly to certain location thing
   const handleClick = (e) => { 
     if (location.loaded && !location.error) {
       console.log("your location is", location.coordinates)
+      
       mapRef.current.flyTo(
         position,
         ZOOM_LEVEL,
@@ -56,23 +60,16 @@ export default function TryMap() {
   
 
   }
-
+// adds a marker to the map
   const newMarker = (e) => {
-    if(isDragged===true){
-      console.warn("isDragged",isDragged)
-      return;
-    }
-  
     
+    console.warn("isDragged",isDragged)
     // get mouse click position
     let latLng = mapRef.current.mouseEventToLatLng(e)
     // add marker to map
     let marker = L.marker([latLng.lat-0.0005, latLng.lng], { icon: markerIcon }).addTo(
       mapRef.current
-    )
-  
-
-    
+    )    
     console.log("latitude longitude",latLng)
     const geodingUrl=`https://api.opencagedata.com/geocode/v1/json?q=${latLng.lat}+${latLng.lng}&key=1c7e646c300b43d4a8c16a1a3d7e0d70`
     fetch(geodingUrl)
@@ -86,8 +83,10 @@ export default function TryMap() {
     )
   }
 
+
+
   return (
-    <div onClick={newMarker}
+    <div onDoubleClick={newMarker}
     className="map-container"
     >
       <MapContainer
@@ -96,15 +95,19 @@ export default function TryMap() {
         scrollWheelZoom={true}
         className="map"
         ref={mapRef}
-        onClick={handleClick}
-        onDragStart={() => setTimeout(() => setIsDragged(true), 250)}
-          onDragEnd={() => setTimeout(() => setIsDragged(false), 250)}
+        whenCreated={(map) => {
+          map.on("click", getMousePosition)
+        }}
+
       >
         <TileLayer
           url={osm.maptiler.url}
           attribution={osm.maptiler.attribution}
-          
+          ref={tileRef}
         />
+       
+
+        
         <LayersControl position="topright">
           <LayersControl.BaseLayer name="OpenStreetMap.Mapnik">
             <TileLayer
@@ -130,7 +133,7 @@ export default function TryMap() {
               pathOptions={{ color: "blue" }}
               radius={110}
             />
-            {/* {console.log(location.coordinates.accuracy)} */}
+     
             <Popup>
               <div>
                 <h3>your location</h3>
