@@ -1,5 +1,5 @@
 import "./Dashboard.css"
-
+import TryMap from "../TryMap"
 function Dashboard() {
   return (
     <div className="wrapper">
@@ -57,7 +57,7 @@ function Dashboard() {
         </div>
       </div>
       <div>
-        <img src="" alt="image" />
+        <TryMap />
       </div>
     </div>
   )

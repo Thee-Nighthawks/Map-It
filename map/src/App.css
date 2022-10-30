@@ -7,7 +7,7 @@
 
 :root {
     --bg-gradient: linear-gradient(-45deg, #F1eaec, #f7e5ff, lightblue, #DDD2EE, #e8eef2);
-    --clr-primary-100: #FFFFFF;
+    --clr-primary-100: #fff;
     --clr-primary-400: #7d85A2;
 }
 
