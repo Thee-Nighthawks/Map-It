@@ -7,7 +7,6 @@ import PrimaryButton from "../UI Components/Button/PrimaryButton"
 function AdminDashboard() {
   const [task, setTask] = useState("")
   const [coordinates, setCoordinates] = useState({
-    suburb: "",
     state: "",
     region: "",
     city: "",

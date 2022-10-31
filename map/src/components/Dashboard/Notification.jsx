@@ -1,7 +1,7 @@
 import React from "react"
 
 function Notification({ coordinates }) {
-  const { suburb, state, region, city, postcode } = coordinates
+  const { state, region, city, postcode } = coordinates
   return (
     <div className="user-dashboard">
       {city !== null ? (
@@ -9,7 +9,7 @@ function Notification({ coordinates }) {
           <h2>{city}</h2>
           <div>
             <p>{region}</p>
-            <p>{suburb}</p>
+            <p>{postcode}</p>
           </div>
           <p>{state}</p>
         </div>
