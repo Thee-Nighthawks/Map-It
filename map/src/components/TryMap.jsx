@@ -50,13 +50,14 @@ export default function TryMap({ coordinates, setCoordinates }) {
   }
   // get my location or fly to certain location thing
   const handleClick = (e) => {
-    if (location.loaded && !location.error) {
-      // console.log("your location is", location.coordinates)
-
-      mapRef.current.flyTo(position, ZOOM_LEVEL, { animate: true })
-      // console.warn("isDragged", isDragged)
-    } else {
-      // console.log("not loaded")
+    if(location.loaded && !location.error){
+      console.log('your location is',location.coordinates)
+        mapRef.current.flyTo([location.coordinates.lat,location.coordinates.lng],
+            ZOOM_LEVEL,
+            {animate:true}
+        )        
+    }else{
+      console.log("not loaded")
     }
   }
   // adds a marker to the map
@@ -191,7 +192,7 @@ export default function TryMap({ coordinates, setCoordinates }) {
         {location.loaded && !location.error && (
           <Marker
             // icon={markerIcon}
-            position={position}
+            position={[location.coordinates.lat, location.coordinates.lng]}
           >
             {/* <Circle
               center={position}
