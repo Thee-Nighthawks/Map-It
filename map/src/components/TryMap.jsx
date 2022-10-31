@@ -16,12 +16,13 @@ import PrimaryButton from "./UI Components/Button/PrimaryButton"
 import ReactRouting from "./reactRouting"
 import "leaflet-routing-machine"
 
+import { MongoDB } from "../app/mongo/mongo"
+
 export default function TryMap({ coordinates, setCoordinates }) {
   const [center, setCenter] = useState({ lat: 59.95, lng: 30.33 })
   const mapRef = useRef()
   const markerRef = useRef()
   const ZOOM_LEVEL = 16
-  const position = [51.505, -0.09] // test purpose
   const location = useGeoLocation()
   const [isDragged, setIsDragged] = useState(false)
   const [getLocationName, setGetLocationName] = useState("")
@@ -40,24 +41,41 @@ export default function TryMap({ coordinates, setCoordinates }) {
     shadowAnchor: [22, 94],
   })
 
-
   const radius=500
+  
   const getMousePosition = (e) => {
     const { lat, lng } = e.latlng
     setCenter({ lat, lng })
     setIsDragged(true)
     // console.log("lat", lat, "lng", lng)
   }
+
+  /**
+   * 
+   * var mdb = new MongoDB('', '');
+   * mdb.add()
+   * mdb.insert_user("12345", "71.2134", "84.2153")
+  var nlat = 0;
+   var nlong = 0;
+  var v, result = mdb.get_task('1')
+  if (v == true) {
+    nlat = result['lat']
+    nlog = result['long']
+  }
+  const position = [nlat, nlong]*/
+
   // get my location or fly to certain location thing
   const handleClick = (e) => {
-    if(location.loaded && !location.error){
-      console.log('your location is',location.coordinates)
-        mapRef.current.flyTo([location.coordinates.lat,location.coordinates.lng],
+    if (location.loaded && !location.error) {
+      // console.log("your location is", location.coordinates)
+
+      mapRef.current.flyTo([location.coordinates.lat,location.coordinates.lng],
             ZOOM_LEVEL,
             {animate:true}
         )        
-    }else{
-      console.log("not loaded")
+      // console.warn("isDragged", isDragged)
+    } else {
+      // console.log("not loaded")
     }
   }
   // adds a marker to the map
@@ -82,7 +100,7 @@ export default function TryMap({ coordinates, setCoordinates }) {
         console.log("Location", data.results[0])
         setCoordinates(data.results[0].components)
       })
-      getShortestPath(latLng)
+    getShortestPath(latLng)
       createCircle(latLng)
       userExixtsInsideCircle(latLng)
       for(let i=0;i<10;i++)
@@ -96,7 +114,7 @@ export default function TryMap({ coordinates, setCoordinates }) {
       fillOpacity: 0.5,
       radius: radius,
     }).addTo(mapRef.current)
-    
+
   }
 
   const userExixtsInsideCircle = (e) => {
@@ -133,11 +151,11 @@ export default function TryMap({ coordinates, setCoordinates }) {
   }
 
   const put100Markers = () => {
-   
+
      L.marker([position[0] + randomnumber(100) / 100000, position[1] + randomnumber(100) / 100000], {
         icon: markerIcon,
       }).addTo(mapRef.current)
-    
+
   }
 
   const getShortestPath = (e) => {
@@ -145,7 +163,7 @@ export default function TryMap({ coordinates, setCoordinates }) {
       waypoints: [
         L.latLng(51.5, -0.09),
         L.latLng(e.lat,e.lng),
-      
+
       ],
     }).addTo(mapRef.current)
 
@@ -156,7 +174,6 @@ export default function TryMap({ coordinates, setCoordinates }) {
     <div
       onDoubleClick={count === 0 ? newMarker : null}
       className="map-container"
-      style={{color:"transparent",userSelect:"none"}}
     >
       <MapContainer
         center={center}
@@ -194,10 +211,11 @@ export default function TryMap({ coordinates, setCoordinates }) {
             // icon={markerIcon}
             position={[location.coordinates.lat, location.coordinates.lng]}
           >
+            
             {/* <Circle
               center={position}
               pathOptions={{ color: "blue" }}
-              radius={radius}
+              radius={110}
             /> */}
 
             <Popup>
@@ -205,11 +223,11 @@ export default function TryMap({ coordinates, setCoordinates }) {
                 <h3>your location</h3>
                 <p>lat: {location.coordinates.lat}</p>
                 <p>lng: {location.coordinates.lng}</p>
-                <p>task:{task}</p>
               </div>
             </Popup>
           </Marker>
         )}
+        
         {staticData.map((item, index) => (
           <Marker
             key={index}
@@ -217,7 +235,7 @@ export default function TryMap({ coordinates, setCoordinates }) {
             icon={markerIcon}
             ref={markerRef}
           >
-            
+            {console.log("index", index)}
             <Popup>
               <div>
                 <h3>{item.name}</h3>
@@ -225,8 +243,9 @@ export default function TryMap({ coordinates, setCoordinates }) {
                 <p>lng: {item.longitude}</p>
               </div>
             </Popup>
+
            {/* add circle on click */}
-          
+
         {console.log( item.longitude)}
           </Marker>
         ))}
