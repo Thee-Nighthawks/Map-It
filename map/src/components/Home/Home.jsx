@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import PrimaryButton from "../UI Components/Button/PrimaryButton"
 import "./Home.css"
 function Home() {
@@ -6,18 +7,8 @@ function Home() {
       <div className="home-content">
         <h1>MAP IT TO TASK IT</h1>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero aut
-          nobis vel soluta, totam, ipsa iusto impedit quaerat obcaecati
-          exercitationem illum neque distinctio omnis, nam quasi. Dolore
-          architecto nostrum sapiente ab odit a, suscipit praesentium, fugiat
-          repellendus quia blanditiis deleniti eos eveniet nemo voluptatem quas
-          nulla. Eius, esse corporis natus inventore ipsum dolorum repellat
-          illum exercitationem magni illo, corrupti obcaecati tenetur in placeat
-          nisi molestiae itaque! Quisquam assumenda corrupti repellat velit
-          molestiae magni cumque. Cupiditate ea fuga aperiam voluptatibus,
-          corrupti hic eos nesciunt atque? Nesciunt deleniti, numquam, commodi
-          repellat explicabo illum eaque modi reiciendis minus amet, nam
-          voluptatem quae eligendi?
+          Solution for map API synced with database to assign tasks to for eg.:
+          riders, users in the defined radius of a selected location.
         </p>
         <div className="button-list">
           <PrimaryButton text="Register" />
@@ -25,7 +16,9 @@ function Home() {
         </div>
       </div>
       <div className="image-container">
-        <img src="https://source.unsplash.com/random" alt="Map it image" />
+        <Link to="/dashboard">
+          <img src="MapIt.png" alt="Map it Image" />
+        </Link>
       </div>
     </div>
   )

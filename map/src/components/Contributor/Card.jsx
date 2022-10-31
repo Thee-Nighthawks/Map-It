@@ -1,6 +1,6 @@
 import { FaLinkedin, FaGithub } from "react-icons/fa"
 import "./Contributor.css"
-function Card({ name, img, github, linkedin }) {
+function Card({ name, img, github, linkedin, role }) {
   return (
     <div className="card-container">
       <div className="card-image">
@@ -8,6 +8,7 @@ function Card({ name, img, github, linkedin }) {
       </div>
       <div className="card-content">
         <p>{name}</p>
+        <p>{role}</p>
         <div className="socials-list">
           <a href={linkedin} target="_blank">
             <FaLinkedin color="blue" className="socials" />
